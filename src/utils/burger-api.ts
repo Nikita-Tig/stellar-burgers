@@ -57,6 +57,8 @@ export const fetchWithRefresh = async <T>(
   }
 };
 
+// orders logic
+
 type TIngredientsResponse = TServerResponse<{
   data: TIngredient[];
 }>;
@@ -130,6 +132,8 @@ export const getOrderByNumberApi = (number: number) =>
       'Content-Type': 'application/json'
     }
   }).then((res) => checkResponse<TOrderResponse>(res));
+
+// user logic
 
 export type TRegisterData = {
   email: string;
