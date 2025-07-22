@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TUser } from '../../../utils/types';
 import {
   checkUserAuth,
-  isRejectedAction,
   loginUserThunk,
   logoutUserThunk,
   registerUserThunk,
   setIsAuthChecked
 } from './actions';
 import { deleteCookie, setCookie } from '../../../utils/cookie';
+import { isRejectedAction } from '../common-actions/actions';
 
 export interface UserState {
   user: TUser | null;

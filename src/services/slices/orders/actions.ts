@@ -1,4 +1,4 @@
-import { getFeedsApi, getOrderByNumberApi } from '@api';
+import { getFeedsApi, getOrderByNumberApi, getOrdersApi } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { orderBurgerApi } from '@api';
 
@@ -14,4 +14,8 @@ export const getOrderByNumberThunk = createAsyncThunk(
 export const OrderBurgerThunk = createAsyncThunk(
   'userOrders/order',
   async (data: string[]) => orderBurgerApi(data)
+);
+
+export const getOrdersThunk = createAsyncThunk('orders/fetchOrders', async () =>
+  getOrdersApi()
 );

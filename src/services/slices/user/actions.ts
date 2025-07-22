@@ -37,15 +37,3 @@ export const checkUserAuth = createAsyncThunk(
 export const logoutUserThunk = createAsyncThunk('user/logoutUser', async () =>
   logoutApi()
 );
-
-interface RejectedAction extends Action {
-  error: Error;
-}
-
-export function isRejectedAction(action: Action): action is RejectedAction {
-  return action.type.endsWith('rejected');
-}
-
-export function isFulfilledAction(action: Action): action is RejectedAction {
-  return action.type.endsWith('rejected');
-}

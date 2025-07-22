@@ -24,11 +24,17 @@ export const userOrdersSlice = createSlice({
   name: 'burgerConstructor',
   initialState,
   reducers: {
-    setBurgerConstructor: (state, action: PayloadAction<TIngredient>) => {
-      if (action.payload.type === 'bun') {
-        state.constructor.bun = action.payload;
-      } else {
-        state.constructor.ingredients.push({ ...action.payload, id: nanoid() });
+    setBurgerConstructor: {
+      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
+        if (action.payload.type === 'bun') {
+          state.constructor.bun = action.payload;
+        } else {
+          state.constructor.ingredients.push(action.payload);
+        }
+      },
+      prepare: (ingredient: TIngredient) => {
+        const id = nanoid();
+        return { payload: { ...ingredient, id } };
       }
     },
     clearBurgerConstructor: (state) => {

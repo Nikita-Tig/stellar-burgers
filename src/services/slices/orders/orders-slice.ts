@@ -3,8 +3,10 @@ import { TOrder } from '@utils-types';
 import {
   getFeedsThunk,
   getOrderByNumberThunk,
+  getOrdersThunk,
   OrderBurgerThunk
 } from './actions';
+import { isRejectedAction } from '../common-actions/actions';
 
 export interface OrderState {
   orders: TOrder[];
@@ -16,6 +18,8 @@ export interface OrderState {
 
   newOrder: { order: TOrder | null; name: string };
   orderRequest: boolean;
+
+  userOrders: TOrder[];
 
   isLoading: boolean;
   error: string | undefined;
@@ -31,6 +35,8 @@ const initialState: OrderState = {
 
   newOrder: { order: null, name: '' },
   orderRequest: false,
+
+  userOrders: [],
 
   isLoading: false,
   error: undefined
@@ -50,7 +56,8 @@ export const ordersSlice = createSlice({
     selectOrderByNumber: (state) => state.orderByNumber,
     selectFeed: (state) => state.feed,
     selectNewOrder: (state) => state.newOrder,
-    selectOrderRequest: (state) => state.orderRequest
+    selectOrderRequest: (state) => state.orderRequest,
+    selectUserOrders: (state) => state.userOrders
   },
   extraReducers(builder) {
     builder
@@ -64,10 +71,6 @@ export const ordersSlice = createSlice({
         state.feed.total = action.payload.total;
         state.feed.totalToday = action.payload.totalToday;
       })
-      .addCase(getFeedsThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
 
       .addCase(getOrderByNumberThunk.pending, (state) => {
         state.isLoading = true;
@@ -78,10 +81,6 @@ export const ordersSlice = createSlice({
         state.isLoading = false;
         [state.orderByNumber] = action.payload.orders;
       })
-      .addCase(getOrderByNumberThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
 
       .addCase(OrderBurgerThunk.pending, (state) => {
         state.orderRequest = true;
@@ -91,15 +90,19 @@ export const ordersSlice = createSlice({
         state.orderRequest = false;
         state.newOrder.name = action.payload.name;
         state.newOrder.order = action.payload.order;
-
-        const value = localStorage.getItem('userOrders');
-        if (typeof value === 'string') {
-          const userOrders = JSON.parse(value);
-          userOrders.push(action.payload.order);
-          localStorage.setItem('userOrders', JSON.stringify(userOrders));
-        }
       })
-      .addCase(OrderBurgerThunk.rejected, (state, action) => {
+
+      .addCase(getOrdersThunk.pending, (state) => {
+        state.isLoading = true;
+        state.error = undefined;
+      })
+      .addCase(getOrdersThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userOrders = action.payload;
+      })
+
+      .addMatcher(isRejectedAction, (state, action) => {
+        state.isLoading = false;
         state.orderRequest = false;
         state.error = action.error.message;
       });
@@ -111,7 +114,8 @@ export const {
   selectOrderByNumber,
   selectFeed,
   selectNewOrder,
-  selectOrderRequest
+  selectOrderRequest,
+  selectUserOrders
 } = ordersSlice.selectors;
 
 export const { setNewOrder } = ordersSlice.actions;

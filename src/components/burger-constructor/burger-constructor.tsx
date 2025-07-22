@@ -1,23 +1,27 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import {
   clearBurgerConstructor,
   selectBurgerConstructor
 } from '../../services/slices/burger-constructor/burger-constructor-slice';
 import { OrderBurgerThunk } from '../../services/slices/orders/actions';
-import { AppDispatch } from 'src/services/store';
 import {
   selectNewOrder,
   selectOrderRequest,
   setNewOrder
 } from '../../services/slices/orders/orders-slice';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { userSelector } from '../../services/slices/user/user-slice';
 
 export const BurgerConstructor: FC = () => {
   /** взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const modalsRef = document.getElementById('modals');
-  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const user = useSelector(userSelector);
+
   const constructorItems = useSelector(selectBurgerConstructor);
 
   const orderRequest = useSelector(selectOrderRequest);
@@ -27,7 +31,22 @@ export const BurgerConstructor: FC = () => {
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) {
       return;
+    }
+    if (!user) {
+      return navigate('/login', {
+        replace: true,
+        state: {
+          from: {
+            ...location,
+            background: location.state?.background,
+            state: null
+          }
+        }
+      });
     } else {
+      const from = location.state?.from || { pathname: '/' };
+      const backgroundLocation = location.state?.from?.background || null;
+
       const itemsId = [
         constructorItems.bun._id,
         ...constructorItems.ingredients.map((ingredient) => ingredient._id),
@@ -36,6 +55,10 @@ export const BurgerConstructor: FC = () => {
       dispatch(OrderBurgerThunk(itemsId)).then(() =>
         dispatch(clearBurgerConstructor())
       );
+      return navigate(from, {
+        replace: true,
+        state: { background: backgroundLocation }
+      });
     }
   };
 

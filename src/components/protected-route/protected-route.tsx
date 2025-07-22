@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import { Navigate, useLocation } from 'react-router-dom';
 import {
   isAuthCheckedSelector,
