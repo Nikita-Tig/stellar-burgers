@@ -11,7 +11,7 @@ export interface OrderState {
   error: string | undefined;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   constructor: {
     bun: null,
     ingredients: []

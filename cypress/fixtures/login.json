@@ -1,0 +1,9 @@
+{
+    "success": true,
+    "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2EyOGFmNWE1NGRmMDAxYjZkZjBhMSIsImlhdCI6MTc1NDMxODY4NywiZXhwIjoxNzU0MzE5ODg3fQ.tAwURfgFi5bTZcGGHBUMQbVWEXyt3z1s_pONo7hDCrg",
+    "refreshToken": "9dc1d1eebd101f492597b77e43d70568e3dd59f46995e8b4493925f4c2bffd62212d101e3ac06330",
+    "user": {
+        "email": "gigithecactus@gmail.com",
+        "name": "gigi"
+    }
+}

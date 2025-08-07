@@ -9,7 +9,7 @@ import { userSlice } from './slices/user/user-slice';
 import { ordersSlice } from './slices/orders/orders-slice';
 import { userOrdersSlice } from './slices/burger-constructor/burger-constructor-slice';
 
-const rootReducer = combineSlices(
+export const rootReducer = combineSlices(
   ingredientsSlice,
   userSlice,
   ordersSlice,

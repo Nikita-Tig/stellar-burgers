@@ -7,7 +7,7 @@ import {
   logoutApi
 } from '@api';
 
-import { Action, createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { getCookie } from '../../../utils/cookie';
 import { setUser } from './user-slice';
 

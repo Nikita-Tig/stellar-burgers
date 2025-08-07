@@ -25,7 +25,7 @@ export interface OrderState {
   error: string | undefined;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   orders: [],
   orderByNumber: null,
   feed: {

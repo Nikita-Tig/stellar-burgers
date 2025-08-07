@@ -5,13 +5,13 @@ import { getIngredientsThunck } from './actions';
 export interface IngredientsState {
   ingredients: TIngredient[];
   isLoading: boolean;
-  error: string | null;
+  error: string | undefined;
 }
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
   ingredients: [],
   isLoading: false,
-  error: null
+  error: undefined
 };
 
 export const ingredientsSlice = createSlice({
@@ -26,7 +26,7 @@ export const ingredientsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getIngredientsThunck.pending, (state) => {
-        state.error = null;
+        state.error = undefined;
         state.isLoading = true;
       })
       .addCase(getIngredientsThunck.fulfilled, (state, action) => {
@@ -34,7 +34,7 @@ export const ingredientsSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getIngredientsThunck.rejected, (state, action) => {
-        state.error = action.error.message || 'failed to fetch ingredients';
+        state.error = action.error.message;
         state.isLoading = false;
       });
   }
