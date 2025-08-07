@@ -48,7 +48,7 @@ Cypress.Commands.add('prepare', (): void => {
     'ingredients'
   );
   cy.intercept('POST', `${URL}/orders`, { fixture: 'order' }).as('order');
-  cy.visit('http://localhost:4000');
+  cy.visit('/');
   window.localStorage.setItem(
     'refreshToken',
     JSON.stringify('test-refreshToken')
@@ -57,6 +57,6 @@ Cypress.Commands.add('prepare', (): void => {
 });
 
 Cypress.Commands.add('complete', (): void => {
-  window.localStorage.removeItem('refreshToken');
-  cy.clearCookie('accessToken');
+  cy.clearLocalStorage();
+  cy.clearCookies();
 });

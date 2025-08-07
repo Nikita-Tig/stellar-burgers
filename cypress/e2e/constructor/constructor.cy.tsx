@@ -26,6 +26,21 @@ describe('modals', function () {
 });
 
 describe('order', function () {
+  it('adding ingredients to constructor', function () {
+    cy.get('[data-testid=ingredients_list] ul').as('ingredientsList');
+    cy.get('@ingredientsList').first().find('li:first button').click();
+    cy.get('@ingredientsList').eq(1).find('li:first button').click();
+    cy.get('@ingredientsList').last().find('li:first button').click();
+
+    cy.get('[data-testid=constructor_bun]').should(
+      'have.text',
+      'Краторная булка N-200i (верх)1255'
+    );
+    cy.get('[data-testid=constructor_ingredients]').should(
+      'have.text',
+      'Биокотлета из марсианской Магнолии424Соус Spicy-X90'
+    );
+  });
   it('ordering a burger', function () {
     cy.get('[data-testid=ingredients_list] ul').as('ingredientsList');
     cy.get('@ingredientsList').first().find('li:first button').click();
